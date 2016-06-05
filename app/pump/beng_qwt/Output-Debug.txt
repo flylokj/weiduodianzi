@@ -1,0 +1,54 @@
+﻿'weiduodianzi.exe': Loaded 'E:\WORKSPACE\vc++\Qt\weiduodianzi(2)\weiduodianzi\Win32\Debug\weiduodianzi.exe', Symbols loaded.
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\ntdll.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\kernel32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\bin\QtCored4.dll', Symbols loaded.
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\user32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\gdi32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\ole32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\advapi32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\rpcrt4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\secur32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\msvcrt.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\ws2_32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\ws2help.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\msvcp100d.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\msvcr100d.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\bin\QtGuid4.dll', Symbols loaded.
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\comdlg32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\comctl32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\shell32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\shlwapi.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\oleaut32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\imm32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\winmm.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\winspool.drv', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\lpk.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\usp10.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202\comctl32.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\uxtheme.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\MSCTF.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\version.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Unloaded 'C:\WINDOWS\system32\version.dll'
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\MSCTFIME.IME', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\codecs\qcncodecsd4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qgifd4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qicod4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qjpegd4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qmngd4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qsvgd4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\bin\QtSvgd4.dll', Symbols loaded.
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\bin\QtXmld4.dll', Symbols loaded.
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qtgad4.dll', Cannot find or open the PDB file
+'weiduodianzi.exe': Loaded 'D:\Qt\4.8.6\plugins\imageformats\qtiffd4.dll', Cannot find or open the PDB file
+goto page 
+'weiduodianzi.exe': Loaded 'C:\WINDOWS\system32\xpsp2res.dll', Binary was not built with debug information.
+goto page 
+goto page 
+goto page 
+goto page 
+goto page 
+goto page 
+The thread 'Win32 Thread' (0x548) has exited with code 0 (0x0).
+The thread 'Win32 Thread' (0xf6c) has exited with code 0 (0x0).
+The thread 'Win32 Thread' (0x888) has exited with code 0 (0x0).
+The program '[2436] weiduodianzi.exe: Native' has exited with code 0 (0x0).
