@@ -3,7 +3,7 @@
 #include <QFont>
 #include <QTextCodec>
 #include "Common.h"
-#include <QDebug>
+
 
 
 
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	a.setFont(font);
 	BaseMainPage w("UV3000U");
 	w.resize(SCREEN_WIDTH, SCREEN_HEIGH);
-	qDebug()<<"add git test";
+	
 #ifdef linux
 	QApplication::setOverrideCursor(Qt::BlankCursor);//Òþ²ØÊó±ê
 	w.setWindowFlags(Qt::FramelessWindowHint);

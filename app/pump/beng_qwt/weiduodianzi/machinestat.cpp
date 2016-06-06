@@ -55,6 +55,7 @@ MachineStat::MachineStat(QObject *parent)
 	, m_nPcGradientCtrlFlag(0)
 	, m_bBugleFlag(false)
 	, m_nFlowCtrlWord(FLOW_INVALID)
+	, m_nCurrentPercent(100000)
 {
 	pDb = DataBase::getInstance();
 	initIO();
@@ -197,6 +198,7 @@ void MachineStat::initMachineStat()
 	m_machineStat.bugleCnt = pDb->queryData("bugleCnt").toInt();			//栓塞使用次数（凸轮光电开关）
 	m_machineStat.bTryDone = false;
 
+	m_machineStat.m_bUpdateFlowFromPc = false;
 
 	//读取试用的当天日期;
 	m_machineStat.m_firstTryDateTime = pDb->queryData("firstTryDateTime").toUInt();//记录开始试用的当天日期时间;
@@ -1023,6 +1025,17 @@ void MachineStat::updateSerialId( quint32 id )
 	m_machineStat.m_nSerialId = id;
 }
 
+void MachineStat::isUpdateFlowFromPC()
+{
+	if(!m_machineStat.m_bUpdateFlowFromPc)
+		return;
+
+	m_machineStat.m_bUpdateFlowFromPc = false;
+
+	updateFlowPercentInPcMode(m_nCurrentPercent, true);
+	emit(updateFlowDisplay(QString::number(m_dCurrentflowValInPc)));			//更新流速显示;
+}
+
 void MachineStat::updateFlowPercent( quint32 percent, FlowCtrlMode eFlowMod )
 {
 	switch (eFlowMod)
@@ -1053,14 +1066,14 @@ void MachineStat::updateFlowPercentLocal( quint32 percent )
 	emit(updatePercentDisplay(temp));
 }
 
-void MachineStat::updateFlowPercentInPcMode( quint32 percent )
+void MachineStat::updateFlowPercentInPcMode( quint32 percent , bool manual)
 {
-	static quint32 tpercent = 100000;
+	
 
-	if(tpercent == percent)
+	if(m_nCurrentPercent == percent && manual == false)
 		return;
 	else
-		tpercent = percent;
+		m_nCurrentPercent = percent;
 
 	QString temp;
 	if(percent == 0)
@@ -1083,6 +1096,7 @@ void MachineStat::updateFlowInPcMode( double flow )
 	}
 
 	m_dCurrentflowValInPc = flow;
+	m_machineStat.m_bUpdateFlowFromPc = true;
 
 	emit(updateFlowDisplay(QString::number(flow)));			//更新流速显示;
 	syncFlowFromPc();

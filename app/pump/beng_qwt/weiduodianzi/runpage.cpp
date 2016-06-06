@@ -56,6 +56,7 @@ void RunPage::initDisplay()
 	double maxFlow = MachineStat::getInstance()->getMaxFlow();
 	ui.rateFlow->setValRange("pumpPurgeFlowVal", 0, maxFlow, 4);
 
+
 	//实时值;
 	connect(MachineStat::getInstance(),SIGNAL(updatePressDisplay(QString, quint8)), this, SLOT(updatePresVal(QString, quint8)));
 	connect(MachineStat::getInstance(), SIGNAL(updateFlowDisplay(QString)), this, SLOT(updateFlowVal(QString)));
@@ -65,6 +66,9 @@ void RunPage::initDisplay()
 	connect(ui.gradCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGradient(int)));
 	connect(ui.statCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMachineStat(int)) );
 	connect(ui.rateFlow, SIGNAL(dataChanging(QString)), this, SLOT(changeFlow(QString)) );
+
+	//如果PC端更新了流速则显示最新的PC设置值;
+	MachineStat::getInstance()->isUpdateFlowFromPC();
 }
 
 

@@ -62,6 +62,8 @@ public:
 
 		quint32 m_nSerialId;
 		int m_nPumpType;							//泵类型;
+
+		bool m_bUpdateFlowFromPc;					//标志从上位机设置了流速和百分比;
 		
 	};
 
@@ -104,6 +106,8 @@ public:
 
 	void updateSerialId(quint32 id);						//更新序列号的随机ID;
 
+	void isUpdateFlowFromPC();								//判断是否刚从PC更新了流速,是则更新显示;
+
 private:
 	typedef struct tagTimeOutStruct
 	{
@@ -121,6 +125,7 @@ private:
 	quint32 m_nCurrentPressRawCode;							//记录最新从分控MCU中收到的压力字;
 	QString m_sCurrentPressVal;								//记录最新的压力值，经过补偿各种处理;
 	double m_dCurrentflowValInPc;							//记录PC设置的最新流速值;
+	quint32 m_nCurrentPercent;								//记录PC设置的最新百分比;
 	double m_dFlowPercent;									//流速百分比（单机）;
 	//double m_dPumpOrPurgeFlowVal;							//记录用于PUMP和PURGE状态的流速值;
 	QList<LPTimeOutStruct> m_timeoutList;					//定时任务列表;
@@ -182,7 +187,7 @@ private:
 	double compensationForFlowSecondary(double flow);	//凸轮补偿流速;
 
 	//流速百分比的更新;
-	void updateFlowPercentInPcMode(quint32 add);					//PC模式下的百分比更新;
+	void updateFlowPercentInPcMode(quint32 add, bool manual = false);					//PC模式下的百分比更新;
 	void updateFlowPercentLocal(quint32 add);							//非PC模式下的百分比更新;
 
 	//不同模式下的流速控制;
