@@ -73,12 +73,16 @@ typedef struct tagProtocolConf{
 #define PROTOCOL_CONF_PROCESSFUNCLARITY		0x40
 
 int API_Protocol( mbyte* pData, uint16 sz );
+void SendNAK();
+void SendACK();
 int API_ClarityProtocol( mbyte* pData, uint16 sz );
 void API_InitProtocol( void );
 void SetProtocolConf( LPProtocolConf conf, unsigned int uFlag );
 int API_ProtocolSend( mbyte* pData, uint16 sz );
 void API_CmdSend(mbyte type, uint32 cmd, uint32 arg);
 void API_SetPumpType(int pumpType);//设置泵的类型，类型不同,旧上位机协议流速命令长度不同;
+
+void API_CmdSendClarity(uint32 hAI, uint32 hPFC, uint32 hVal);
 
 
 #define API_ReadData(x,y,z) 1

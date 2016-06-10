@@ -86,16 +86,52 @@ int int2Ascii(uint16 num, mbyte *aBuf)
 	return 3;
 }
 
-mbyte hex2Ascii(mbyte data_hex)
+//mbyte hex2Ascii(mbyte data_hex)
+//{
+//	char  ASCII_Data;
+//	ASCII_Data=data_hex & 0x0F;
+//	if(ASCII_Data<10) 
+//		ASCII_Data=ASCII_Data+0x30; //‘0--9’
+//	else  
+//		ASCII_Data=ASCII_Data+0x37;       //‘A--F’
+//	return ASCII_Data;
+//}
+
+mbyte hex2Ascii(uint32 data_hex, mbyte *data, int len, int bsp)
 {
 	char  ASCII_Data;
-	ASCII_Data=data_hex & 0x0F;
-	if(ASCII_Data<10) 
-		ASCII_Data=ASCII_Data+0x30; //‘0--9’
-	else  
-		ASCII_Data=ASCII_Data+0x37;       //‘A--F’
-	return ASCII_Data;
+	int i;
+	for (i = 0; i < len; i++)
+	{
+		ASCII_Data=data_hex & 0x0F;
+		if(ASCII_Data<10) 
+		{
+			ASCII_Data=ASCII_Data+0x30; //‘0--9’
+		}
+		else  
+			ASCII_Data=ASCII_Data+0x37;       //‘A--F’
+		data[len-1-i] = ASCII_Data;
+		data_hex = data_hex>>4;
+	}
+	if(bsp)//前置0改为0x20;
+	{
+		for (i=0; i<len; i++)
+		{
+			if(data[i] != 0x30)
+			{
+				return 0;
+			}
+			else
+			{
+				data[i]=0x20;
+			}
+		}
+	}
+
+
+	return 0;
 }
+
 
 void API_SetPumpType(int pumpType)
 {
@@ -131,18 +167,18 @@ void API_CmdSend( mbyte type, uint32 cmd, uint32 arg )
 
 
 
-__inline void SendNAK()
+void SendNAK()
 {
 	uint16 nak = NAK;
 	if( g_protocol.conf.write )
 		g_protocol.conf.write( &nak, 1 );
 }
 
-__inline void SendACK()
+void SendACK()
 {
 	uint16 enq = ACK;
-    if(bAutoAck==0)
-        return;
+   /* if(bAutoAck==0)
+        return;*/
 	if( g_protocol.conf.write )
 		g_protocol.conf.write( &enq, 1 );
 }
@@ -178,6 +214,29 @@ int API_ProtocolSend( mbyte* pData, uint16 sz )
 
     return 1;
 }
+
+
+void API_CmdSendClarity(uint32 hAI, uint32 hPFC, uint32 hVal)
+{
+	mbyte data[16];
+	unsigned char check = 0;
+	int i = 0;
+	data[0] = STX;
+	data[15] = ETX;
+	hex2Ascii(ID, &data[1], 2, 0);
+	hex2Ascii(AI, &data[3], 1, 0);
+	hex2Ascii(hPFC, &data[4], 2, 0);
+	hex2Ascii(hVal, &data[6], 6, 1);
+	//12
+	for (i = 0; i < 12; i++)
+	{
+		check += data[i];
+	}
+	int2Ascii(check, &data[12], 3);
+	API_ProtocolSend(data, sizeof(data));
+}
+
+
 
 
 //需要将quint等改成宏定义;
@@ -303,9 +362,6 @@ void ProcessData4Clarity()
 		pc +=2;
 		//value;
 		Asiic2Int(pc, 6, &nVal);
-
-		if(hID != ID)
-			return;
 
 		if(g_protocol.conf.processClarity)
 			g_protocol.conf.processClarity(hID, hAI, hPFC, nVal);

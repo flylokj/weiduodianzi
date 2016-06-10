@@ -223,130 +223,7 @@ void Worker::processCmd4Pc( mbyte type, uint32 cmd, uint32 arg, uint32 add)
 
 void Worker::processCmd4Clarity(mbyte hID, mbyte hAI, mbyte hPFC, uint32 nVal)
 {
-#if 1
-
-	QString strDisp("");
-
-	//命令处理;
-	switch( hPFC )
-	{
-		//以下需要回复数据;
-	case PFCC_READ_PRODUCT_ID:
-		{
-			strDisp = QString("read ID");
-		}
-		break;
-	case PFCC_READ_LICENSE_H:
-		{
-			strDisp = QString("read licnese h");
-		}
-		break;
-	case PFCC_READ_LICENSE_L:
-		{
-			strDisp = QString("read licnese l");
-		}
-		break;
-	case PFCC_READ_PUMPSTATUS:
-		{
-			strDisp = QString("read pump stat");
-		}
-		break;
-	case PFCC_READ_PUMPFIX:
-		{
-			strDisp = QString("read pump fix");
-		}
-		break;
-	case PFCC_READ_PUMPTIME:
-		{
-			strDisp = QString("read pump time");
-		}
-		break;
-		//以下需要回复ACK或者NACK
-	case PFCC_SET_FLOW:
-		{
-			strDisp = QString("set flow");
-		}
-		break;
-	case PFCC_SET_FLOWPERCENT:
-		{
-			strDisp = QString("set flow percent");
-		}
-		break;
-		
-	case PFCC_SYNCTIME:
-		{
-			strDisp = QString("time sync;");
-		}
-		break;
-	case PFCC_MAX_PRESS:
-		{
-			strDisp = QString("max press;");
-		}
-		break;
-	case PFCC_MIN_PRESS:
-		{
-			strDisp = QString("min press;");
-		}
-		break;
-	case PFCC_PUMPSTART:
-		{
-			strDisp = QString("pump start;");
-		}
-		break;
-	case PFCC_PUMPSTOP:
-		{
-			strDisp = QString("pump stop;");
-		}
-		break;
-	case PFCC_PRESSCLEAR:
-		{
-			strDisp = QString("press clear;");
-		}
-		break;
-	case PFCC_READ_PRESS:
-		{
-			strDisp = QString("read press;");
-		}
-		break;
-	case PFCC_SET_MODE:
-		{
-
-			strDisp = QString("set mode;");
-		}
-		break;
-	case PFCC_SET_FLOWFIX:
-		{
-
-			strDisp = QString("set flow fix;");
-		}
-		break;
-	//主动发送;
-	case PFCC_SEND_PRESS:
-		{
-			strDisp = QString("send press;");
-		}
-		break;
-	case PFCC_INPUT_EVENT:
-		{
-			
-			strDisp = QString("input event;");
-		}
-		break;
-	case PFCC_SYS_ERR:
-		{
-			
-			strDisp = QString("sys error;");
-		}
-		break;
-
-	default:
-		strDisp = QString("命令无法识别...;");
-		//SendNAK();
-		break;
-	}
-	qDebug()<<strDisp;
-
-#endif
+	emit( process4PcClarity(hID, hAI, hPFC, nVal) );
 }
 
 
@@ -380,6 +257,18 @@ void Worker::CmdSend4Mcu(quint8 type, quint32 cmd, quint32 arg)
 	list.append(cmd);
 	list.append(arg);
 	sendList4Mcu.append(list);
+}
+
+void Worker::CmdSendClarity( quint32 hAI, quint32 hPFC, quint32 hVal )
+{
+	API_CmdSendClarity(hAI, hPFC, hVal);
+}
+
+
+
+void Worker::sendAckClarity( quint8 ack )
+{
+	ack ? SendACK() : SendNAK();
 }
 
 void Worker::check4Mcu( uint32 cmd )
@@ -462,4 +351,6 @@ void Worker::startTimer()
 {
 	m_pTimer->start(TIMEOUT_PERIOD);
 }
+
+
 

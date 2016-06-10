@@ -45,6 +45,35 @@ double overPress;
 bool bOverPress = false;//压力报警标志
 
 
+/////////////////////////////////////////////////////////
+//
+//功能：十进制转BCD码
+//
+//输入：int Dec                      待转换的十进制数据
+//      int length                   BCD码数据长度
+//
+//输出：unsigned char *Bcd           转换后的BCD码
+//
+//返回：0  success
+//
+//思路：原理同BCD码转十进制
+//
+//////////////////////////////////////////////////////////
+int DectoBCD(int Dec,int length)
+{
+	int ret = 0;
+	for(int i = 0; i < length/2; i++)
+	{
+		int temp = Dec % 100;
+		temp = ((temp/10)<<4) | ((temp%10)&0xff);
+		temp = temp << i*8;
+		ret |= temp;
+		Dec/=100;
+	}
+	return ret;
+}
+
+
 MachineStat::MachineStat(QObject *parent)
 	: QObject(parent)
 	, m_dCurrentflowValInPc(-1)
@@ -200,6 +229,8 @@ void MachineStat::initMachineStat()
 
 	m_machineStat.m_bUpdateFlowFromPc = false;
 
+	m_machineStat.m_dCurrentFlow = 0;
+
 	//读取试用的当天日期;
 	m_machineStat.m_firstTryDateTime = pDb->queryData("firstTryDateTime").toUInt();//记录开始试用的当天日期时间;
 	if(m_machineStat.m_firstTryDateTime == 0)
@@ -348,8 +379,10 @@ void MachineStat::updateFlow(double flow, MachineStat::FlowCtrlMode eFlowMod)
 			updateFlowInDebugMode(flow);
 		break;
 		default:
-			break;
+			return;
 	}
+
+	m_machineStat.m_dCurrentFlow = flow;
 }
 
 
@@ -658,6 +691,10 @@ void MachineStat::checkFlowCtrlByPc()
 		return;
 
 	if(!m_bPcGradientCtrl)
+		return;
+
+	//Clarity 协议不需要以下步骤;
+	if(DataBase::getInstance()->queryData("pcProtocol").toInt() == 1)
 		return;
 
 	m_nPcGradientCtrlFlag++;
@@ -997,6 +1034,11 @@ void MachineStat::updateWarning()
 	}
 }
 
+MachineStat::MachineStatment MachineStat::getMachineStat()
+{
+	return m_machineStat.machineStat;
+}
+
 void MachineStat::initFlowCtrl()
 {
 	FlowCtrl::getInstance();
@@ -1036,6 +1078,24 @@ void MachineStat::isUpdateFlowFromPC()
 	emit(updateFlowDisplay(QString::number(m_dCurrentflowValInPc)));			//更新流速显示;
 }
 
+quint32 MachineStat::pcGetMachineStat()
+{
+	quint32 ret = 0;
+
+	//获取运行状态;
+	MachineStatment st = getMachineStat();
+	if( st != STOP )
+		ret |= 1<<20;
+
+	//获取当前流速;
+	//m_machineStat.m_dCurrentFlow = 5.000;//测试用，模拟当前流速5ml，测试clarity协议用;
+	quint32 flow = m_machineStat.m_dCurrentFlow*1000;
+	quint32 hFlow = DectoBCD(flow, 5);
+	ret |=hFlow;
+
+	return ret;
+}
+
 void MachineStat::updateFlowPercent( quint32 percent, FlowCtrlMode eFlowMod )
 {
 	switch (eFlowMod)
@@ -1049,6 +1109,11 @@ void MachineStat::updateFlowPercent( quint32 percent, FlowCtrlMode eFlowMod )
 		default:
 			break;
 	}
+}
+
+void MachineStat::updateFlowPercent( double percent )
+{
+	emit(updatePercentDisplay(QString::number(percent)));
 }
 
 void MachineStat::updateFlowPercentLocal( quint32 percent )

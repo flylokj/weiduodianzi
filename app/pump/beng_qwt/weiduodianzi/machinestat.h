@@ -9,6 +9,8 @@
 #include "communicationcoupling.h"
 #include "flowctrl.h"
 
+int DectoBCD(int Dec,int length);
+
 
 #define COMUNICATION_ERR 1//通讯出错;
 #define OVERFLOW_ERR	 2//流速超限;
@@ -64,6 +66,8 @@ public:
 		int m_nPumpType;							//泵类型;
 
 		bool m_bUpdateFlowFromPc;					//标志从上位机设置了流速和百分比;
+
+		double m_dCurrentFlow;						//当前流速;
 		
 	};
 
@@ -84,6 +88,7 @@ public:
 	void disableUpdateFlow();																//更新流速电机除能;
 	void updateFlow(double flow, MachineStat::FlowCtrlMode eFlowMod);						//更新流速(流速，流速控制模式);
 	void updateFlowPercent(quint32 percent, MachineStat::FlowCtrlMode eFlowMod);			//流速更新;
+	void updateFlowPercent(double percent);
 	float GetWordFactor();									//读取配置流速;
 	void clearPress();										//压力清零;
 	void syncTime(quint32 time);							//上位机时间同步;
@@ -107,6 +112,11 @@ public:
 	void updateSerialId(quint32 id);						//更新序列号的随机ID;
 
 	void isUpdateFlowFromPC();								//判断是否刚从PC更新了流速,是则更新显示;
+
+	/*0XXXXX 表示泵处在停止状态，且XXXXX为泵运行当前设定流速。
+	1XXXXX 表示泵处在运行状态，且XXXXX为泵运行当前设定流速。
+	流速数据格式为固定三位小数，单位为ml/min。*/
+	quint32 pcGetMachineStat();								//获取状态1; 
 
 private:
 	typedef struct tagTimeOutStruct
@@ -210,6 +220,9 @@ private:
 	void serialNumberGenerate();								//随机生成序列号;
 	quint32 getTryDayFromActiveCode( quint64 activeNum, quint32 serialId );
 	void updateWarning();									//更新报警;
+
+	//获取当前机器的运行状态;
+	MachineStatment getMachineStat();
 
 public slots:
 	void setMachineStat(MachineStatment stat,  bool recover= false);//切换机器状态;

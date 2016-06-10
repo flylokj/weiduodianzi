@@ -159,11 +159,17 @@ private:
 signals:
 	void process4Mcu( quint8 type, quint32 cmd, quint32 arg, quint32 add);
 	void process4Pc( quint8 type, quint32 cmd, quint32 arg, quint32 add);
+	void process4PcClarity( quint8 hID, quint32 hAI, quint32 hPFC, quint32 nVal);
 	void communicationError(int reSend);
+
+	
 
 private slots:
 	void CmdSend(quint8 type, quint32 cmd, quint32 arg);
 	void CmdSend4Mcu(quint8 type, quint32 cmd, quint32 arg);
+	void CmdSendClarity(quint32 hAI, quint32 hPFC, quint32 hVal);
+
+	void sendAckClarity(quint8 ack);
 
 public slots:
 	void timeoutFunc();
