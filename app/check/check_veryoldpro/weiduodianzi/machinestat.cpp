@@ -343,10 +343,11 @@ void MachineStat::deRegisterTimeoutFunc( pTimeoutFunc pFunc )
 
 void MachineStat::timerEvent( QTimerEvent *event )
 {
-	QTime newCurrentTime = QTime::currentTime();
+	/*QTime newCurrentTime = QTime::currentTime();
 	qDebug()<<m_currentTime.msecsTo(newCurrentTime);
-	m_currentTime = newCurrentTime;
+	m_currentTime = newCurrentTime;*/
 	uploadAuToPc();
+	m_nStartupTimeMsec++;
 }
 
 void MachineStat::checkTryOut()
@@ -1433,16 +1434,28 @@ void MachineStat::initAulist(quint8 wavetype)
 
 void MachineStat::initStartupTime()
 {
-	m_startupTime = QTime::currentTime();
+	/*m_startupTime = QTime::currentTime();*/
+	m_nStartupTimeMsec = 0;
 }
 
 QString MachineStat::getStartupTime()
 {
-	QTime time = QTime::currentTime();
+	/*QTime time = QTime::currentTime();
 	int elapse = m_startupTime.secsTo(time);
 	int h = elapse/3600;
 	int m = elapse/60%60;
 	int s = elapse%60;
+	QString strHour = QString("%1:").arg(h).rightJustified(3, '0');
+	QString strMin = QString("%1:").arg(m).rightJustified(3, '0');
+	QString strSec = QString("%1").arg(s).rightJustified(2, '0');
+	return strHour+strMin+strSec;*/
+	
+
+	quint32 sec = m_nStartupTimeMsec/20;
+
+	int h = sec/3600;
+	int m = sec/60%60;
+	int s = sec%60;
 	QString strHour = QString("%1:").arg(h).rightJustified(3, '0');
 	QString strMin = QString("%1:").arg(m).rightJustified(3, '0');
 	QString strSec = QString("%1").arg(s).rightJustified(2, '0');

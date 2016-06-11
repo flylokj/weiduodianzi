@@ -203,6 +203,7 @@ private:
 
 
 	MachineStat(QObject *parent = 0);
+	quint32 m_nStartupTimeMsec;									//开机时间;
 	QTime m_startupTime;										//开机时间;
 	struct MachineRunningStat m_machineStat;				//机器状态;
 	DataBase *pDb;
